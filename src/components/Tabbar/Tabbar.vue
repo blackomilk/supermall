@@ -5,23 +5,26 @@
 </template>
 
 <script>
-import Tabbaritem from './Tabbaritem'
+import Tabbaritem from "./Tabbaritem";
 
 export default {
-  name: 'tabbar',
+  name: "tabbar",
   components: {
-    Tabbaritem
-  }
-}
+    Tabbaritem,
+  },
+};
 </script>
 
 <style>
-  #tabbar {
-    display: flex;
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
-    box-shadow: 0px -1px 5px rgba(100, 200, 300, .1);
-  }
+#tabbar {
+  display: flex;
+  position: fixed;
+  height: 0.98rem;
+  width: 100%;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 2000;
+  box-shadow: 0px -1px 5px rgba(100, 200, 300, 0.1);
+}
 </style>

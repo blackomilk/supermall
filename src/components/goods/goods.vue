@@ -21,9 +21,9 @@ export default {
     }
   },
   created() {
-    setTimeout(() => {
-        console.log("this.goods",this.goods)
-    }, 3000);
+    // setTimeout(() => {
+    //     console.log("this.goods",this.goods)
+    // }, 3000);
   }
 }
 </script>
@@ -36,7 +36,7 @@ export default {
     margin-top: 0.3rem;
     margin-right: 0.1rem;
     margin-left: 0.1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     /* bottom: 1rem; */
     display: flex;
     flex-wrap: wrap;

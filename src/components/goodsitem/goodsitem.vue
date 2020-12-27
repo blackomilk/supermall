@@ -1,6 +1,6 @@
 <template>
-  <div class="goodsItem">
-    <img :src="item.show.img" alt="" />
+  <div class="goodsItem" @click="handleItemInfo">
+    <img :src="(item.show && item.show.img) || (item.image)" alt="" />
     <div class="goodsInfo">
       <p>{{ item.title }}</p>
       <div class="goodsItemPrice">
@@ -19,8 +19,16 @@ export default {
     item: {
       type: Object,
       default() {
-        return {};
+        return {
+        };
       },
+    },
+  },
+  methods: {
+    handleItemInfo() {
+      const iid = this.item.iid;
+      // console.log(iid)
+      this.$router.push({name: 'GoodsItemInfo', query:{iid:iid}})
     },
   },
 };

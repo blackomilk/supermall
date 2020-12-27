@@ -48,8 +48,7 @@ export default {
   flex: 1;
   background-color: #f6f6f6;
   text-align: center;
-  height: 0.98rem;
-  /* line-height: 49px; */
+  /* line-height: 0.98rem; */
   font-weight: bold;
   color: #2c3e50;
 }

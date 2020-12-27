@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <router-view />
-    <Tabbar>
+    <!-- <keep-alive> -->
+      <router-view />
+    <!-- </keep-alive> -->
+    <Tabbar v-show="$route.meta.showTabbar">
       <Tabbaritem path="/home">
         <div slot="itemText">首页</div>
         <div slot="itemImg"><img src="./assets/home.png" alt="" /></div>
@@ -10,7 +12,9 @@
       <Tabbaritem path="/category">
         <div slot="itemText">分类</div>
         <div slot="itemImg"><img src="./assets/category.png" alt="" /></div>
-        <div slot="itemActiveImg"><img src="./assets/s-category.png" alt="" /></div>
+        <div slot="itemActiveImg">
+          <img src="./assets/s-category.png" alt="" />
+        </div>
       </Tabbaritem>
       <Tabbaritem path="/cart">
         <div slot="itemText">购物车</div>
@@ -20,7 +24,9 @@
       <Tabbaritem path="/profile">
         <div slot="itemText">我的</div>
         <div slot="itemImg"><img src="./assets/profile.png" alt="" /></div>
-        <div slot="itemActiveImg"><img src="./assets/s-profile.png" alt="" /></div>
+        <div slot="itemActiveImg">
+          <img src="./assets/s-profile.png" alt="" />
+        </div>
       </Tabbaritem>
     </Tabbar>
   </div>

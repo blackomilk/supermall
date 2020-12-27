@@ -8,8 +8,10 @@
       :titleItem="['流行', '新款', '精选']"
       @currentType="handleType"
     />
-    <Goods :goods="goods[currentType].list" />
-    <div class="backTop"><img src="../../assets/back-top.png" alt=""></div>
+    <!-- <keep-alive> -->
+      <Goods :goods="goods[currentType].list" />
+    <!-- </keep-alive> -->
+    <BackTop />
   </div>
 </template>
 
@@ -20,9 +22,11 @@ import Recommend from "./child/recommend/recommend";
 import Feature from "./child/feature/feature";
 import SelectBar from "../../components/selectbar/selectbar";
 import Goods from "../../components/goods/goods";
+import BackTop from "../../components/backtop/backtop";
 
 import { getHomeMultidata, getGoods } from "../../network/home";
 const CURRENTTYPE = ["pop", "new", "sell"];
+const SCROLLTOP = 2000;
 export default {
   name: "home",
   components: {
@@ -32,6 +36,7 @@ export default {
     Feature,
     SelectBar,
     Goods,
+    BackTop,
   },
   data() {
     return {
@@ -43,13 +48,56 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
+      isShowBackBtn: false,
+      scrollTop: 0,
     };
   },
-  created() {
+  // activated() {
+  //   console.log("this.scroltop", this.scrollTop);
+  //   if (this.scrollTop > 0) {
+  //     window.scrollTo(0, this.scrollTop);
+
+  //     window.addEventListener("scroll", this.lodeMore);
+  //   }
+  // },
+  mounted() {
     this._getHomeMultidata();
-    this._getGoods(this.currentType);
+    this._getGoods("pop");
+    this._getGoods("new");
+    this._getGoods("sell");
+    window.addEventListener("scroll", this.lodeMore);
+    this.lodeMore();
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.lodeMore); //页面离开后销毁监听事件
   },
   methods: {
+    saveScroll() {
+      this.scrollTop =
+        document.documentElement && document.documentElement.scrollTop;
+    },
+    lodeMore() {
+      const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      const windowHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      const scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+      // console.log("scrollTop", scrollTop);
+      // console.log("windowHeight", windowHeight);
+      // console.log("scrollHeight", scrollHeight);
+      this.scrollTop = scrollTop;
+      if (scrollTop != 0) {
+        if (scrollTop + windowHeight >= scrollHeight) {
+          this._getGoods(this.currentType);
+          console.log("this.currentType", this.currentType);
+          console.log("this.goods.page", this.goods[this.currentType].page);
+          console.log("this.goods", this.goods[this.currentType]);
+        }
+      }
+    },
     _getHomeMultidata() {
       getHomeMultidata().then((res) => {
         // console.log("ressssssssssssssss", res);
@@ -62,19 +110,28 @@ export default {
       getGoods(type, page).then((res) => {
         // console.log("dsdadsadsadadasadada", res);
         this.goods[type].list.push(...res.data.list);
-        this.goods[type].page += 1
+        this.goods[type].page += 1;
       });
     },
     handleType(index) {
       this.currentType = CURRENTTYPE[index];
 
       this._getGoods(this.currentType);
+      console.log("this.goods.page", this.goods[this.currentType].page);
+      console.log("this.goods", this.goods[this.currentType]);
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
+/* ::-webkit-scrollbar {
+  width: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+} */
 #home {
   position: relative;
 }
@@ -82,22 +139,5 @@ export default {
   background-color: #ff8198;
   color: #fff;
   font-size: 0.34rem;
-
-  position: sticky;
-  display: flex;
-  left: 0rem;
-  right: 0rem;
-  top: 0rem;
-  z-index: 100;
-}
-.backTop {
-  position: fixed;
-  right: 20rem;
-  bottom: 20rem;
-}
-.backTop img {
-  width: 100rem;
-  height: 100rem;
-  z-index: 2000;
 }
 </style>

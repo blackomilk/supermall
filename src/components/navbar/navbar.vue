@@ -8,22 +8,28 @@
 
 <script>
 export default {
-  name: 'navbar'
-}
+  name: "navbar",
+};
 </script>
 
 <style>
- #navbar {
-   display: flex;
-   height: 44px;
-   line-height: 44px;
-   text-align: center;
-   box-shadow: 0 1px 1px rgba(100, 100, 100, .1);
- }
- .left, .right {
-   width: 60px;
- }
- .center {
-   flex: 1;
- }
+#navbar {
+  display: flex;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  text-align: center;
+  box-shadow: 0 0.02rem 0.02rem rgba(100, 100, 100, 0.1);
+  position: sticky;
+  left: 0rem;
+  right: 0rem;
+  top: 0rem;
+  z-index: 100;
+}
+.left,
+.right {
+  width: 1.2rem;
+}
+.center {
+  flex: 1;
+}
 </style>

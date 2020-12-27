@@ -1,9 +1,7 @@
 <template>
   <swiper ref="mySwiper" :options="swiperOptions" class="swiper">
-    <swiper-slide v-for="(item, id) in banner" :key="id">
-      <a :href="item.link">
-        <img :src="item.image" alt="" />
-      </a>
+    <swiper-slide v-for="(item,index) in topImage" :key='index'>
+      <img :src="item" alt="">
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper>
@@ -17,9 +15,9 @@ import "swiper/swiper-bundle.min.css";
 Swiper2.use([Navigation, Pagination, Autoplay]);
 
 export default {
-  name: "homeSwiper",
+  name: "imageSwiper",
   props: {
-    banner: {
+    topImage: {
         type: Array,
         default() {
           return []
@@ -57,12 +55,12 @@ export default {
 <style scoped>
 .swiper {
   width: 100%;
-  height: 3.7rem;
+  height: 8rem;
 }
 .slide {
   background-color: skyblue;
 }
 .swiper img {
-  width: 100%;
+  max-width: 100%;
 }
 </style>
