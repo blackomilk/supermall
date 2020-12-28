@@ -22,6 +22,12 @@
             @click="toggleModal(item)"
           >
             {{ item }}
+            <img
+              class="closeImg"
+              src="../../../assets/close.png"
+              alt=""
+              @click.stop="delCard(item)"
+            />
           </div>
         </draggable>
         <div v-if="addBtnShow"></div>
@@ -45,18 +51,22 @@
       </div>
     </div>
     <modal v-show="showModal" @closeme="closeme" :header="modalHeader" />
+    <confirm v-show="showConfirm" @delCard="delConfirm" @closeConfirm="closeConfirm"/>
   </div>
 </template>
 
 <script>
 import draggable from "vuedraggable";
 import modal from "./modal";
+import confirm from "./confirm";
+import Confirm from "./confirm.vue";
 
 export default {
   name: "card",
   components: {
     draggable,
     modal,
+    confirm,
   },
   props: {
     categoryName: {
@@ -88,6 +98,7 @@ export default {
     return {
       drag: false,
       showModal: false,
+      showConfirm: false,
       list: this.categoryList,
       addBtnShow: true,
       modalHeader: 0,
@@ -107,6 +118,17 @@ export default {
     this.$emit("list", this.list);
   },
   methods: {
+    delCard(item) {
+      this.showConfirm = !this.showConfirm
+    },
+    delConfirm(item) {
+      const index = this.list.indexOf(item);
+      this.list.splice(index, 1);
+      this.showConfirm = !this.showConfirm
+    },
+    closeConfirm() {
+      this.showConfirm = !this.showConfirm
+    },
     toggleModal(item) {
       this.showModal = !this.showModal;
       this.modalHeader = item;
@@ -126,7 +148,7 @@ export default {
     addCardContent() {
       const textarea = document.getElementById("textarea");
       if (textarea.value != "") {
-        this.categoryList.push(textarea.value);
+        this.list.push(textarea.value);
         textarea.value = "";
       } else {
         alert("请输入内容");
@@ -165,7 +187,7 @@ export default {
 .inDiv {
   width: 100%;
   height: auto;
-  background-color: #ebecf0;
+  background-color: rgb(235, 236, 240);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -205,10 +227,21 @@ export default {
   margin-top: 0.1rem;
   margin-bottom: 0.1rem;
   background-color: #fff;
-  box-shadow: 0 0.02rem 0 rgba(9,30,66,.25);
+  box-shadow: 0 0.02rem 0 rgba(9, 30, 66, 0.25);
 }
 .card:hover {
-  background-color: transparent;
+  background-color: rgba(61, 67, 87, 0.1);
+}
+.card:hover .closeImg {
+  display: inline-block;
+}
+.closeImg {
+  display: none;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+  width: 0.35rem;
+  height: 0.35rem;
 }
 .btnDiv {
   width: 100%;
