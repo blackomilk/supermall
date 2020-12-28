@@ -2,11 +2,12 @@
   <div class="categoryDiv">
     <div class="inDiv">
       <div class="inputDiv">
-        <input class="input" type="text" :value="categoryName" />
+        <input class="input" type="text" :value="categoryName" disabled />
       </div>
-      <div class="cardDiv" id="carddiv">
+      <div class="cardDiv">
         <draggable
-          :v-model="categoryList"
+          id="first"
+          v-model="list"
           :group="categoryGroup"
           :animation="animation"
           @start="onStart"
@@ -14,11 +15,14 @@
           @add="onAdd"
           @update="onUpdate(categoryList)"
         >
-          <transition-group>
-            <div class="card" v-for="item in categoryList" :key="item" @click="toggleModal">
-              <p>{{ item }}</p>
-            </div>
-          </transition-group>
+          <div
+            class="card"
+            v-for="item in categoryList"
+            :key="item"
+            @click="toggleModal(item)"
+          >
+            {{ item }}
+          </div>
         </draggable>
         <div v-if="addBtnShow"></div>
         <div v-else class="addCardDiv">
@@ -37,23 +41,22 @@
       </div>
       <!-- <button slot="header" @click="addCard">Add</button> -->
       <div class="btnDiv" v-if="addBtnShow">
-        <button class="addBtn" @click="addCard">
-          添加一张新卡片
-        </button>
+        <button class="addBtn" @click="addCard">添加一张新卡片</button>
       </div>
     </div>
-    <modal v-show="showModal" @closeme="closeme" />
+    <modal v-show="showModal" @closeme="closeme" :header="modalHeader" />
   </div>
 </template>
 
 <script>
 import draggable from "vuedraggable";
-import modal from './modal'
+import modal from "./modal";
 
 export default {
   name: "card",
   components: {
-    draggable,modal
+    draggable,
+    modal,
   },
   props: {
     categoryName: {
@@ -84,8 +87,10 @@ export default {
   data() {
     return {
       drag: false,
+      showModal: false,
+      list: this.categoryList,
       addBtnShow: true,
-      showModal: false
+      modalHeader: 0,
     };
   },
   computed: {
@@ -99,18 +104,20 @@ export default {
     // }
   },
   updated() {
-    this.$emit("onUp");
+    this.$emit("list", this.list);
   },
   methods: {
-    toggleModal() {
-      this.showModal = !this.showModal
+    toggleModal(item) {
+      this.showModal = !this.showModal;
+      this.modalHeader = item;
     },
     closeme() {
-      this.showModal = !this.showModal
+      this.showModal = !this.showModal;
     },
     addCard() {
       this.addBtnShow = false;
-      const carddiv = document.getElementById("carddiv");
+      this.$emit("addBtnShow", this.ListKey);
+      const carddiv = document.getElementsByClassName("cardDiv");
       if (carddiv.scrollTop != carddiv.scrollHeight + 0.7 + "rem") {
         carddiv.scrollTop = carddiv.scrollHeight + 0.7 + "rem";
       } else {
@@ -118,8 +125,13 @@ export default {
     },
     addCardContent() {
       const textarea = document.getElementById("textarea");
-      this.categoryList.push(textarea.value);
-      textarea.value = "";
+      if (textarea.value != "") {
+        this.categoryList.push(textarea.value);
+        textarea.value = "";
+      } else {
+        alert("请输入内容");
+      }
+
       // this.addBtnShow = true
       // console.log(textarea.value)
     },
@@ -136,7 +148,7 @@ export default {
       console.log("list的值", this.categoryList);
       this.$emit("onAdd");
     },
-    onUpdate(list) {},
+    onUpdate() {},
   },
 };
 </script>
@@ -151,6 +163,8 @@ export default {
   white-space: nowrap;
 }
 .inDiv {
+  width: 100%;
+  height: auto;
   background-color: #ebecf0;
   box-sizing: border-box;
   display: flex;
@@ -173,10 +187,6 @@ export default {
   padding: 0.2rem;
   /* background-color: mediumspringgreen; */
 }
-.inDiv {
-  width: 100%;
-  height: auto;
-}
 .cardDiv {
   /* background-color: midnightblue; */
   overflow-y: auto;
@@ -184,7 +194,7 @@ export default {
   margin: 0 0.08rem;
   padding: 0 0.08rem;
   z-index: 1;
-  min-height: 0;
+  /* min-height: 1rem; */
 }
 .card {
   position: relative;
@@ -194,7 +204,11 @@ export default {
   border-radius: 0.06rem;
   margin-top: 0.1rem;
   margin-bottom: 0.1rem;
-  background-color: #ffffff;
+  background-color: #fff;
+  box-shadow: 0 0.02rem 0 rgba(9,30,66,.25);
+}
+.card:hover {
+  background-color: transparent;
 }
 .btnDiv {
   width: 100%;
@@ -225,6 +239,8 @@ export default {
   padding: 0.2rem;
   outline: none;
   border-radius: 0.1rem;
+  /* background-color: red; */
+  /* margin-top: 100px; */
 }
 .addCardBtn {
   width: 1rem;

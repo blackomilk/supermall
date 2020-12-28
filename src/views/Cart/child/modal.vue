@@ -1,7 +1,7 @@
 <template>
   <div class="modal-backdrop">
-    <div class="modal" :style="mainStyles">
-      <div class="header">header</div>
+    <div class="modal">
+      <div class="header">{{header}}</div>
       <div class="body">
         <div>body</div>
         <div>body</div>
@@ -26,7 +26,18 @@
 <script>
 export default {
   name: "modal",
+  props: {
+    header: {
+      type: Number,
+      default() {
+        return 0
+      }
+    }
+  },
   methods: {
+    confirm() {
+
+    },
     close() {
       this.$emit("closeme");
     },
@@ -59,11 +70,15 @@ export default {
 .header {
   width: 100%;
   height: 1rem;
+  font-size: 0.7rem;
+  padding-left: 0.3rem;
 }
 .body {
   flex: 1;
   border-top: 0.02rem solid rgba(189, 185, 185,0.3);
   border-bottom: 0.02rem solid rgba(189, 185, 185,0.3);
+  padding-left: 0.3rem;
+  font-size: 0.3rem;
 }
 .footer {
   width: 100%;

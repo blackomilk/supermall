@@ -22,31 +22,41 @@ const routes: Array<RouteConfig> = [
     component: Home,
     meta: { 
       showTabbar: true,
-      keepAlive: true 
+      keepAlive: true,
+      title: '首页'
     },
   },
   {
     path: '/category',
     name: 'Category',
-    meta: { showTabbar: true },
+    meta: { showTabbar: true,
+      title: '分类'
+    },
     component: () => import('../views/Category/Category.vue')
   },
   {
     path: '/cart',
     name: 'Cart',
-    meta: { showTabbar: false },
+    meta: { showTabbar: false,
+      title: '购物车'
+    },
     component: () => import('../views/Cart/Cart.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    meta: { showTabbar: true },
+    meta: { showTabbar: true,
+      title: '我的'
+
+     },
     component: () => import('../views/Profile/Profile.vue')
   },
   {
     path: '/goodsItemInfo',
     name: 'GoodsItemInfo',
-    meta: { showTabbar: false },
+    meta: { showTabbar: false,
+      title: '商品详情'
+    },
     component: () => import('../views/GoodsItemInfo/goodsiteminfo.vue')
   }
 
@@ -75,6 +85,11 @@ const router = new VueRouter({
       }
     }
   }
+})
+
+router.beforeEach((to,from,next) => {
+  document.title = to.meta.title
+  next()
 })
 
 export default router

@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <NavBar class="title"><div slot="center">我的</div></NavBar>
+    <NavBar class="navbar"><div slot="center">我的</div></NavBar>
     <div class="body">
       <div class="section1">
         <div class="icon"><img src="../../assets/matti.png" alt="" /></div>
@@ -13,6 +13,7 @@
         </div>
         <div class="right"><img src="../../assets/right.png" alt="" /></div>
       </div>
+      <Swiper />
       <div class="balance">
         <div class="one">
           <div>
@@ -60,16 +61,41 @@
           <span>下载购物APP</span>
         </div>
       </div>
+      <div class="news">
+        <div>
+          <img src="../../assets/xiaoxi.png" alt="" />
+          <span>我的消息</span>
+        </div>
+        <div>
+          <img src="../../assets/jifen.png" alt="" />
+          <span>积分商城</span>
+        </div>
+        <div>
+          <img src="../../assets/huiyuan.png" alt="" />
+          <span>会员卡</span>
+        </div>
+      </div>
+      <div class="cart">
+        <div>
+          <img src="../../assets/s-cart.png" alt="" />
+          <span>我的购物车</span>
+        </div>
+        <div>
+          <img src="../../assets/download.png" alt="" />
+          <span>下载购物APP</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from "../../components/navbar/navbar";
+import Swiper from './child/swiper'
 export default {
   name: "profile",
   components: {
-    NavBar,
+    NavBar,Swiper
   },
 };
 </script>
@@ -80,7 +106,7 @@ export default {
   height: 100%;
   position: relative;
 }
-.title {
+.navbar {
   background-color: #ff8198;
   color: #fff;
   font-size: 0.34rem;

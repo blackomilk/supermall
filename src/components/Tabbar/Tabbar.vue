@@ -18,7 +18,7 @@ export default {
 <style>
 #tabbar {
   display: flex;
-  position: fixed;
+  position: sticky;
   height: 0.98rem;
   width: 100%;
   left: 0px;

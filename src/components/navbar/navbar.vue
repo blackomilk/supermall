@@ -18,7 +18,7 @@ export default {
   height: 0.88rem;
   line-height: 0.88rem;
   text-align: center;
-  box-shadow: 0 0.02rem 0.02rem rgba(100, 100, 100, 0.1);
+  /* box-shadow: 0 0.02rem 0.02rem rgba(100, 100, 100, 0.1); */
   position: sticky;
   left: 0rem;
   right: 0rem;
